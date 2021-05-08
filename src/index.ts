@@ -1568,6 +1568,16 @@ export namespace firebase
     return typeof x === 'object'
   }
 
+  function isDocRef(x: any): x is firestore.DocumentReference
+  {
+    return x instanceof firestore.DocumentReference
+  }
+
+  function isColRef(x: any): x is firestore.CollectionReference
+  {
+    return x instanceof firestore.CollectionReference
+  }
+
   function isDefined (x?: any): boolean
   {
     return typeof x !== 'undefined'
@@ -1811,6 +1821,14 @@ export namespace firebase
     else if (isArray(data))
     {
       copy = data.map(copyData)
+    }
+    else if (isDocRef(data))
+    {
+      return data
+    }
+    else if (isColRef(data))
+    {
+      return data
     }
     else if (isObject(data))
     {
