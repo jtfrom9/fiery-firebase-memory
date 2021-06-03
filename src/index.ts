@@ -749,7 +749,15 @@ export namespace firebase
 
           for (let i = 0; i < values.length; i++)
           {
-            let valueIndex = copy.indexOf(values[i])
+            // let valueIndex = copy.indexOf(values[i])
+            let valueIndex = copy.findIndex(data => 
+            {
+              if (data instanceof DocumentReference) {
+                return data.path === (values[i] as DocumentReference).path;
+              } else {
+                return data === values[i];
+              }
+            })
 
             if (valueIndex === -1)
             {
