@@ -644,6 +644,17 @@ export namespace firebase
             {
               const endAtIndex: number = findMarker(snapshots, orderFieldPath, endAt[i])
 
+              if (endAtIndex < 0 && typeof endAt[i] === 'string') {
+                const INDEX = snapshots
+                  .map((snap) => snap.get(orderFieldPath))
+                  .concat(endAt[i])
+                  .sort()
+                  .findIndex((s) => s === endAt[i]);
+                // console.log(`>>>>>>>>>>>>>>>>>>> ${INDEX} (start=${start})`);
+                // console.log(snapshots.map((snap, i) => `[${i}]${snap.get(orderFieldPath)}`));
+                end = INDEX - 1;
+              }
+
               if (endAtIndex >= 0)
               {
                 end = Math.min(end, endAtIndex)
